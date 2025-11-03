@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<a type="button" class="btn btn-outline-primary" href="/products/new" sec:authorize="hasRole('ADMIN')">Thêm sản phẩm mới</a>
+<h1>Danh sách sản phẩm</h1>
+    <table class="table">
+        <thead>
+
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">In stock</th>
+            <th scope="col" sec:authorize="isAuthenticated()">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product:${products}">
+
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.category}"></td>
+            <td th:text="${product.in_stock == null ? 'Còn hàng':'Hết hàng'}"></td>
+            <td sec:authorize="isAuthenticated()">
+
+                <a class="btn btn-primary" th:href="@{/products/edit/{id}(id=${product.id})}" role="button" sec:authorize="hasAnyRole('ADMIN','STAFF')">Edit</a>
+                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" sec:authorize="hasRole('ADMIN')">
+                    <button  class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+ <head>
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ </head>
+ <body>
+
+ <form th:action="${product.id == null ? '/products/new' : '/products/edit/' + product.id}" th:object="${product}" method="post">
+
+         <input type="hidden" th:if="${product.id}!= null" th:field="*{id}">
+
+     <div class="form-group">
+         <label >Tên sản phẩm</label>
+         <input type="text" class="form-control" placeholder="" aria-describedby="helpId" th:field="*{name}">
+
+     </div>
+
+     <div class="form-group">
+         <label >Price</label>
+         <input type="number" name=""  class="form-control" placeholder="" aria-describedby="helpId" th:field="*{price}">
+
+     </div>
+
+     <div class="form-group">
+         <label>Danh mục</label>
+         <select  name="" th:field="*{category}">
+             <option value="Electronics" th:selected="${product.category} == 'Electronics'">Electronics</option>
+             <option value="Books" th:selected="${product.category} == 'Books'">Books</option>
+             <option value="Clothing" th:selected="${product.category} == 'Clothing'">Clothing</option>
+             <option value="Home" th:selected="${product.category} == 'Home'">Home</option>
+         </select>
+     </div>
+
+     <div class="form-check">
+         <label class="form-check-label">
+             <input type="radio" class="form-check-input"  th:field="*{in_stock}" th:value="true" >
+             Còn hàng
+         </label>
+         <label class="form-check-label">
+             <input type="radio" class="form-check-input"  th:field="*{in_stock}" th:value="false">
+             Hết hàng
+         </label>
+     </div>
+
+
+
+     <button type="submit" class="btn btn-primary" th:text="${product.id} == null ? 'Thêm':'Sửa'"></button>
+
+ </form>
+
+
+
+
+ </body>
+</html>
